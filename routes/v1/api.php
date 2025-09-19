@@ -37,5 +37,5 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::apiResource('users', UserController::class)->names('users');
 
     Route::apiResource('todos', TodoController::class)->names('todos');
-    Route::patch('todos/{id}/toggle', [TodoController::class, 'toggle'])->name('todos.toggle');
+    Route::patch('todos/{todo}/toggle', [TodoController::class, 'toggle'])->name('todos.toggle');
 });
