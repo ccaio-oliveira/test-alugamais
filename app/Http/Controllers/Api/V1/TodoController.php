@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTodoRequest;
 use App\Http\Requests\UpdateTodoRequest;
+use App\Models\Todo;
 use App\Services\TodoService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -42,9 +43,9 @@ class TodoController extends Controller
         return response()->json(null, 204);
     }
 
-    public function toggle(int $id): JsonResponse
+    public function toggle(Todo $todo): JsonResponse
     {
-        $todo = $this->service->toggle($id);
-        return response()->json($todo);
+        $toggled = $this->service->toggle($todo->id);
+        return response()->json($toggled);
     }
 }
