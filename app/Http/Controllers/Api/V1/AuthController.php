@@ -8,6 +8,7 @@ use App\Http\Requests\Api\V1\Auth\RegisterRequest;
 use App\Http\Resources\Api\User\UserResource;
 use App\Services\Contracts\AuthServiceInterface;
 use Illuminate\Http\JsonResponse;
+use OpenApi\Annotations as OA;
 
 class AuthController extends BaseApiController
 {
@@ -19,7 +20,14 @@ class AuthController extends BaseApiController
     ) {}
 
     /**
-     * Register a new user.
+     * @OA\Post(
+     *   path="/api/v1/auth/register",
+     *   summary="Registrar usuário",
+     *   tags={"Auth"},
+     *   @OA\RequestBody(required=true, @OA\JsonContent(ref="#/components/schemas/AuthRegisterRequest")),
+     *   @OA\Response(response=200, description="OK", @OA\JsonContent(ref="#/components/schemas/AuthResponse")),
+     *   @OA\Response(response=422, description="Validation error", @OA\JsonContent(ref="#/components/schemas/ValidationError"))
+     * )
      */
     public function register(RegisterRequest $request): JsonResponse
     {
@@ -29,7 +37,14 @@ class AuthController extends BaseApiController
     }
 
     /**
-     * Login a user.
+     * @OA\Post(
+     *   path="/api/v1/auth/login",
+     *   summary="Login",
+     *   tags={"Auth"},
+     *   @OA\RequestBody(required=true, @OA\JsonContent(ref="#/components/schemas/AuthLoginRequest")),
+     *   @OA\Response(response=200, description="OK", @OA\JsonContent(ref="#/components/schemas/AuthResponse")),
+     *   @OA\Response(response=401, description="Unauthorized", @OA\JsonContent(ref="#/components/schemas/MessageResponse"))
+     * )
      */
     public function login(LoginRequest $request): JsonResponse
     {
@@ -39,7 +54,14 @@ class AuthController extends BaseApiController
     }
 
     /**
-     * Get the authenticated user.
+     * @OA\Get(
+     *   path="/api/v1/auth/me",
+     *   summary="Usuário autenticado",
+     *   tags={"Auth"},
+     *   security={{"bearerAuth": {}}},
+     *   @OA\Response(response=200, description="OK", @OA\JsonContent(ref="#/components/schemas/User")),
+     *   @OA\Response(response=401, description="Unauthorized", @OA\JsonContent(ref="#/components/schemas/MessageResponse"))
+     * )
      */
     public function me(): JsonResponse
     {
@@ -49,7 +71,14 @@ class AuthController extends BaseApiController
     }
 
     /**
-     * Refresh the token.
+     * @OA\Get(
+     *   path="/api/v1/auth/refresh",
+     *   summary="Refresh token",
+     *   tags={"Auth"},
+     *   security={{"bearerAuth": {}}},
+     *   @OA\Response(response=200, description="OK", @OA\JsonContent(ref="#/components/schemas/AuthResponse")),
+     *   @OA\Response(response=401, description="Unauthorized", @OA\JsonContent(ref="#/components/schemas/MessageResponse"))
+     * )
      */
     public function refresh(): JsonResponse
     {
@@ -62,7 +91,14 @@ class AuthController extends BaseApiController
     }
 
     /**
-     * Logout the user.
+     * @OA\Get(
+     *   path="/api/v1/auth/logout",
+     *   summary="Logout",
+     *   tags={"Auth"},
+     *   security={{"bearerAuth": {}}},
+     *   @OA\Response(response=200, description="OK", @OA\JsonContent(ref="#/components/schemas/MessageResponse")),
+     *   @OA\Response(response=401, description="Unauthorized", @OA\JsonContent(ref="#/components/schemas/MessageResponse"))
+     * )
      */
     public function logout(): JsonResponse
     {
